@@ -21,16 +21,22 @@ if (!validUrl.isUri(program.url)) {
     console.error('Invalid url');
 }
 
-const p1 = requestAsync(program.url);
+calculate(program.url, 0);
 
-p1.then(
-        function(val) {
-            console.log(val);
-        })
-    .catch(
-        function(reason) {
-            console.log('Error fetching page.');
-        });
+function calculate(url, page) {
+    requestAsync(program.url, page)
+        .then(
+            function(body) {
+		   //calculate for this page
+		   //if more pages call calucaulte again
+		   //else print results 
+                console.log(body+ "page: " +page);
+            })
+        .catch(
+            function(reason) {
+                console.log('Error fetching page.');
+            });
+}
 
 function requestAsync(url) {
     return new Promise(function(fulfill, reject) {
