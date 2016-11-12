@@ -23,8 +23,10 @@ if (!validUrl.isUri(program.url)) {
 
 request(program.url, function(error, response, body) {
     if (!error && response.statusCode == 200) {
-        console.log(body);
+        var cheerio = require('cheerio');
+        var $ = cheerio.load(body);
+	console.log($('.tags p a').text());
     } else {
-        console.error(body)
+        console.error("There was an error. Error is " + error);
     }
 })
