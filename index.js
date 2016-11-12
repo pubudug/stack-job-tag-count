@@ -21,12 +21,26 @@ if (!validUrl.isUri(program.url)) {
     console.error('Invalid url');
 }
 
-request(program.url, function(error, response, body) {
-    if (!error && response.statusCode == 200) {
-        var cheerio = require('cheerio');
-        var $ = cheerio.load(body);
-	console.log($('.tags p a').text());
-    } else {
-        console.error("There was an error. Error is " + error);
-    }
-})
+const p1 = requestAsync(program.url);
+
+p1.then(
+        function(val) {
+            console.log(val);
+        })
+    .catch(
+        function(reason) {
+            console.log('Error fetching page.');
+        });
+
+function requestAsync(url) {
+    return new Promise(function(fulfill, reject) {
+        request(url, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                return fulfill(body);
+            } else {
+                return reject(error);
+            }
+        });
+
+    });
+}
