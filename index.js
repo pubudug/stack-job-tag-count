@@ -21,20 +21,28 @@ if (!validUrl.isUri(program.url)) {
     console.error('Invalid url');
 }
 
+const result = [];
 calculate(program.url, 0);
 
 function calculate(url, page) {
     requestAsync(program.url, page)
         .then(
             function(body) {
-		   //calculate for this page
-		   //if more pages call calucaulte again
-		   //else print results 
-                console.log(body+ "page: " +page);
+                const $ = cheerio.load(body);
+
+                $('.tags p a').each(function(i, elem) {
+                    result[$(this).text().trim()] = (result[$(this).text().trim()] || 0) + 1;
+                });
+                console.log(result);
+                const total = $('.job-link.selected').attr('title').split(" ")[3];
+		//
+                //calculate for this page
+                //if more pages call calucaulte again
+                //else print results 
             })
         .catch(
             function(reason) {
-                console.log('Error fetching page.');
+                console.log('Error fetching page.' + reason);
             });
 }
 
