@@ -27,7 +27,7 @@ calculate(program.url, 1);
 
 function calculate(url, page) {
     console.log("Fetching page " + url);
-    requestAsync(program.url, page)
+    requestAsync(url, page)
         .then(
             function(body) {
                 const $ = cheerio.load(body);
