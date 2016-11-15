@@ -41,9 +41,12 @@ function calculate(url, page) {
                     pageUrl.query.pg = page + 1;
                     calculate(pageUrl.toString(), page + 1);
                 } else {
-                    console.log(result.sort(function(a, b) {
-                        return a - b;
-                    }));
+                    const keysSorted = Object.keys(result).sort(function(a, b) {
+                        return result[b] - result[a];
+                    });
+		    keysSorted.forEach(function(elem){
+			    console.log(elem + ":" + result[elem]);
+		    });
                 }
                 //
             })
